@@ -1,0 +1,8 @@
+---
+varz:
+  username: 20739-11265-2501-29206
+  password: 8846-9901-11009-22049
+  type: uaa
+
+logging:
+  config: /home/config/log4j.properties

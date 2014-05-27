@@ -1,0 +1,22 @@
+{
+    "heartbeat_period_in_seconds": 10,
+
+    "cc_auth_user": "bulk_user",
+    "cc_auth_password": "c1oudc0w",
+    "cc_base_url": "http://api.10.10.18.45.xip.io",
+    "skip_ssl_verification": true,
+    "desired_state_batch_size": 500,
+    "fetcher_network_timeout_in_seconds": 10,
+
+    "store_schema_version": 4,
+    "store_type": "etcd",
+    "store_urls": ["http://10.10.18.45:4001"],
+
+    "metrics_server_port": 0,
+    "metrics_server_user": "",
+    "metrics_server_password": "",
+
+    "log_level": "INFO",
+
+    "nats": [{"host":"10.10.103.215","port":4222}]
+}
