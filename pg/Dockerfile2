@@ -1,0 +1,40 @@
+FROM 10.10.103.215:5000/db
+MAINTAINER Chen XingYu wizard_cxy@hotmail.com
+
+# initial set up
+ENV PACKAGE_DIR /var/vcap/packages/postgres/
+ENV JOB_DIR /var/vcap/jobs/postgres/
+ENV STORE_DIR /var/vcap/store/
+ENV DATA_DIR $STORE_DIR/postgres/
+ENV LOG_DIR /var/vcap/sys/log/postgres/
+ENV RUN_DIR /var/vcap/sys/run/postgres/
+ENV INSTALL_DIR /var/vcap/install/postgress/
+
+# add a non-root user cxy to use the postgresql
+RUN useradd vcap
+
+RUN mkdir -p $PACKAGE_DIR $JOB_DIR $STORE_DIR $DATA_DIR $RUN_DIR $LOG_DIR $INSTALL_DIR
+RUN chown vcap:vcap $PACKAGE_DIR $JOB_DIR $STORE_DIR $DATA_DIR $RUN_DIR $LOG_DIR $INSTALL_DIR
+RUN apt-get update && apt-get install -y build-essential gcc bison flex libreadline6-dev zlib1g-dev 
+
+
+# Install postgres
+ADD postgresql-9.0.3.tar.gz $PACKAGE_DIR
+
+RUN cd $PACKAGE_DIR && tar xzf postgresql-9.0.3.tar.gz 
+RUN cd $PACKAGE_DIR/postgresql-9.0.3 && ./configure --prefix=$INSTALL_DIR && make && make install
+
+ENV HOST '0.0.0.0'
+ENV PORT "5524"
+RUN sysctl -w "kernel.shmmax=284934144"
+
+USER vcap
+
+RUN $INSTALL_DIR/bin/initdb -E utf8 --locale en_US.UTF-8 -D $DATA_DIR
+
+ADD pg_hba.conf $DATA_DIR
+ADD postgresql.conf $DATA_DIR
+
+EXPOSE 5524
+ADD run.py $INSTALL_DIR
+#CMD ["python", "$INSTALL_DIR/run.py"]
