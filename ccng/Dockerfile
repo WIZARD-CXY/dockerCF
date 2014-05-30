@@ -6,8 +6,10 @@ RUN echo 'root:haha' | chpasswd
 
 EXPOSE 22 8181
 
-ADD cloud_controller.yml /cloud_controller_ng/config/
+ADD conf.template /cloud_controller_ng/config/
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD run.py /home/
 ENV CLOUD_CONTROLLER_NG_CONFIG /cloud_controller_ng/config/cloud_controller.yml
 RUN mkdir -p /var/vcap/shared && mkdir -p /var/vcap/nfs/shared
-CMD ["/usr/bin/supervisord"]
+
+CMD ["python", "/home/run.py"]

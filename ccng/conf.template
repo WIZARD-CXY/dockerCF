@@ -1,17 +1,17 @@
 ---
-local_route: 10.10.18.45
+local_route: {{local_route}}
 external_port: 8181
 pid_filename: /tmp/cloud_controller.pid
 development_mode: false
 message_bus_servers:
-  - nats://10.10.103.215:4222
+  - nats://{{natsIP}}:4222
 
 external_protocol: http
-external_domain: api.10.10.18.45.xip.io
+external_domain: {{external_domain}}
 
 system_domain_organization: system_domain
-system_domain: 10.10.18.45.xip.io
-app_domains: [ 10.10.18.45.xip.io ]
+system_domain: {{system_domain}}
+app_domains: [ {{app_domains}} ]
 
 jobs:
   global:
@@ -36,7 +36,7 @@ info:
   build: "2222"
   version: 2
   support_address: "http://support.cloudfoundry.com"
-  description: "Cloud Foundry build with docker by chenxingyu"
+  description: "Cloud Foundry build with docker container by chenxingyu"
 
 nginx:
   use_nginx: false
@@ -52,12 +52,12 @@ loggregator:
   url: "ws://loggregator.vcap.me:80"
 
 db:
-  database: postgres://ccadmin:c1oudc0w@10.10.103.215:5524/ccdb
+  database: postgres://{{ccdbUserName}}:{{ccdbPassWord}}@{{ccdbHost}}:5524/ccdb
   max_connections: 32
   pool_timeout: 10
 
 uaa:
-  url: "http://uaa.10.10.18.45.xip.io"
+  url: "{{uaaHost}}"
   resource_id: "cloud_controller"
   verification_key: |
       -----BEGIN PUBLIC KEY-----
