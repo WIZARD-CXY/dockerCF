@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+
+from jinja2 import *
+
+#create Jinja2 environment object and refer to templates directory
+env = Environment(loader=FileSystemLoader('./templates'))
+ 
+#create Jinja2 template object based for gorouter
+template = env.get_template('gorouterconf.template')
+natsIP="10.10.103.215"
+result=template.render(natsIP=natsIP)
+
+with open("gorouter/conf.yml","wb") as f:
+    f.write(result)
+
