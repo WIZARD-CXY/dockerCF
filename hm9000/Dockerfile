@@ -7,10 +7,11 @@ RUN echo 'root:haha' | chpasswd
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 #ADD config file into the image
-ADD hm9000.json /home/
-ADD run.sh /home/
+RUN mkdir -p /home/hm9000/
+ADD hm9000.template /home/hm9000/
+ADD run.py /home/
 
 ENV LOG_DIR /var/vcap/sys/log/hm9000
 RUN mkdir -p $LOG_DIR
 
-CMD ["/usr/bin/supervisord"]
+CMD ["python", "/home/run.py"]
